@@ -1,0 +1,121 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import api from "../api/axios.js";
+import Navbar from "../components/Navbar.jsx";
+import crmVideo from "../assets/crm_bg.mp4";
+
+const Login = () => {
+  const navigate = useNavigate();
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await api.post("/auth/login", formData);
+
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      navigate("/dashboard");
+    } catch (err) {
+      setError(err.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="relative min-h-screen">
+      <video
+        autoPlay
+        loop
+        muted
+        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+      >
+        <source src={crmVideo} type="video/mp4" />
+      </video>
+
+      <div className="absolute inset-0 bg-black/40 z-10"></div>
+
+      <div className="relative z-50">
+        <Navbar user={user} />
+      </div>
+
+      <div className="relative z-20 flex items-center justify-center min-h-screen">
+        <div className="bg-white/90 backdrop-blur-md shadow-xl rounded-lg p-8 w-full max-w-md">
+          <h2 className="text-2xl font-semibold text-center mb-6">
+            Login to CRM
+          </h2>
+
+          {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              onChange={handleChange}
+              required
+              className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            />
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              onChange={handleChange}
+              required
+              className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+            />
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md"
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+            <div className="mt-6 bg-gray-100 border rounded-md p-3 text-sm text-gray-700">
+              <p className="font-semibold mb-1">Demo Credentials</p>
+              <p>
+                Email: <span className="font-mono">johndoe@gmail.com</span>
+              </p>
+              <p>
+                Password: <span className="font-mono">123456</span>
+              </p>
+            </div>
+          </form>
+
+          <p className="text-sm text-center mt-4">
+            Don’t have an account?{" "}
+            <Link to="/register" className="text-blue-600 hover:underline">
+              Register
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
