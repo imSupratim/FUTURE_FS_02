@@ -66,10 +66,10 @@ The system allows users to register, login, track leads, update customer informa
   <img width="1900" height="911" alt="image" src="https://github.com/user-attachments/assets/189dd614-469b-467d-8687-66842a35f34b" />
 
 - 📋 Leads Management
-  <img width="1915" height="904" alt="image" src="https://github.com/user-attachments/assets/36e261a8-296c-419a-993e-64fba3d9b8ab" />
+  <img width="1901" height="911" alt="image" src="https://github.com/user-attachments/assets/9f37bf4b-a0f6-473c-ae72-eae48004e774" />
 
 - ➕ Add New Lead
-  <img width="1901" height="911" alt="image" src="https://github.com/user-attachments/assets/9f37bf4b-a0f6-473c-ae72-eae48004e774" />
+  <img width="1915" height="904" alt="image" src="https://github.com/user-attachments/assets/36e261a8-296c-419a-993e-64fba3d9b8ab" />
 
 
 ---
